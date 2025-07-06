@@ -1,0 +1,12 @@
+C:\Users\Dawood\source\repos\Vplab07\BlazorCRUD.library\bin\Debug\net6.0\BlazorCRUD.library.deps.json
+C:\Users\Dawood\source\repos\Vplab07\BlazorCRUD.library\bin\Debug\net6.0\BlazorCRUD.library.dll
+C:\Users\Dawood\source\repos\Vplab07\BlazorCRUD.library\bin\Debug\net6.0\BlazorCRUD.library.pdb
+C:\Users\Dawood\source\repos\Vplab07\BlazorCRUD.library\obj\Debug\net6.0\BlazorCRUD.library.csproj.AssemblyReference.cache
+C:\Users\Dawood\source\repos\Vplab07\BlazorCRUD.library\obj\Debug\net6.0\BlazorCRUD.library.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Dawood\source\repos\Vplab07\BlazorCRUD.library\obj\Debug\net6.0\BlazorCRUD.library.AssemblyInfoInputs.cache
+C:\Users\Dawood\source\repos\Vplab07\BlazorCRUD.library\obj\Debug\net6.0\BlazorCRUD.library.AssemblyInfo.cs
+C:\Users\Dawood\source\repos\Vplab07\BlazorCRUD.library\obj\Debug\net6.0\BlazorCRUD.library.csproj.CoreCompileInputs.cache
+C:\Users\Dawood\source\repos\Vplab07\BlazorCRUD.library\obj\Debug\net6.0\BlazorCRUD.library.dll
+C:\Users\Dawood\source\repos\Vplab07\BlazorCRUD.library\obj\Debug\net6.0\refint\BlazorCRUD.library.dll
+C:\Users\Dawood\source\repos\Vplab07\BlazorCRUD.library\obj\Debug\net6.0\BlazorCRUD.library.pdb
+C:\Users\Dawood\source\repos\Vplab07\BlazorCRUD.library\obj\Debug\net6.0\ref\BlazorCRUD.library.dll

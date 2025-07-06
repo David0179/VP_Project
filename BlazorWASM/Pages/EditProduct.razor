@@ -1,0 +1,93 @@
+﻿@page "/edit-product/{id:int}"
+@using BlazorCRUD.library
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h3>Edit Product</h3>
+
+@if (Product == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <EditForm Model="Product" OnValidSubmit="UpdateProduct">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="name">Name</label>
+            <InputText id="name" class="form-control" @bind-Value="Product.Name" />
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <InputText id="description" class="form-control" @bind-Value="Product.Description" />
+        </div>
+
+        <div class="form-group">
+            <label for="price">Price</label>
+            <InputNumber id="price" class="form-control" @bind-Value="Product.Price" />
+        </div>
+
+        <div class="form-group">
+            <label for="imageUrl">Image URL</label>
+            <InputText id="imageUrl" class="form-control" @bind-Value="Product.ImageUrl" />
+        </div>
+
+        <div class="form-group">
+            <label for="category">Category</label>
+            <InputText id="category" class="form-control" @bind-Value="Product.Category" />
+        </div>
+
+        <button class="btn btn-success" type="submit">Update Product</button>
+        <button class="btn btn-secondary" type="button" @onclick="CancelEdit">Cancel</button>
+    </EditForm>
+}
+
+@code {
+    private Product Product = new();
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // Fetch the product details
+            Product = await Http.GetFromJsonAsync<Product>($"https://localhost:7007/api/Products/{Id}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading product: {ex.Message}");
+        }
+    }
+
+    private async Task UpdateProduct()
+    {
+        try
+        {
+            // Update the product
+            var response = await Http.PutAsJsonAsync($"https://localhost:7007/api/Products/{Id}", Product);
+            if (response.IsSuccessStatusCode)
+            {
+                NavigationManager.NavigateTo("/products"); // Redirect to products list
+            }
+            else
+            {
+                Console.WriteLine($"Error updating product: {response.ReasonPhrase}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error updating product: {ex.Message}");
+        }
+    }
+
+    private void CancelEdit()
+    {
+        // Navigate back to the products list or previous page
+        NavigationManager.NavigateTo("/products");
+    }
+}
+

@@ -1,0 +1,145 @@
+﻿@page "/products"
+@using BlazorCRUD.library
+@inject HttpClient http
+@inject NavigationManager Nav
+@inject IJSRuntime JsRuntime
+<link href="css/app.css" rel="stylesheet" />
+
+<h3>Pakistani Artisans Handicrafts</h3>
+
+<button class="btn btn-success mt-3" @onclick="ShowCreateProductForm">Add New Product</button>
+
+@if (IsCreatingProduct)
+{
+    <div class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create New Product</h5>
+                    <button type="button" class="close" @onclick="CloseCreateProductForm">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <CreateProduct OnProductCreated="HandleProductCreated" OnCancel="CloseCreateProductForm" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row mt-3">
+    @if (ProductList == null || !ProductList.Any())
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        @foreach (var product in ProductList)
+        {
+            <div class="col-md-4 mb-4">
+                <ProductCard Product="product" OnEdit="EditProduct" OnDelete="DeleteProduct" />
+            </div>
+        }
+    }
+</div>
+
+<style>
+
+    .modal {
+        display: block;
+        position: fixed;
+        z-index: 1050;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-dialog {
+        position: relative;
+        margin: 10% auto;
+        max-width: 500px;
+    }
+</style>
+
+@code {
+    public IEnumerable<Product> ProductList { get; set; } = new List<Product>();
+    private bool IsCreatingProduct { get; set; } = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProducts();
+    }
+
+    private async Task LoadProducts()
+    {
+        try
+        {
+            ProductList = await http.GetFromJsonAsync<IEnumerable<Product>>("https://localhost:7007/api/Products");
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error fetching products: {ex.Message}");
+        }
+    }
+
+    private void ShowCreateProductForm()
+    {
+        IsCreatingProduct = true;
+    }
+
+    private void CloseCreateProductForm()
+    {
+        IsCreatingProduct = false;
+    }
+
+    private async Task HandleProductCreated(Product newProduct)
+    {
+        // Add the new product to the list and close the form
+        ProductList = ProductList.Append(newProduct).ToList();
+        IsCreatingProduct = false;
+
+        // Optionally reload all products from the server
+        // await LoadProducts();
+    }
+
+    private void EditProduct(Product product)
+    {
+        Nav.NavigateTo($"/edit-product/{product.Id}");
+    }
+
+    private async Task DeleteProduct(Product product)
+    {
+        var confirmDelete = await JsRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete {product.Name}?");
+
+        if (confirmDelete)
+        {
+            try
+            {
+                await http.DeleteAsync($"https://localhost:7007/api/Products/{product.Id}");
+                ProductList = ProductList.Where(p => p.Id != product.Id).ToList();
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error deleting product: {ex.Message}");
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

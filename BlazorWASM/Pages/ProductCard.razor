@@ -1,0 +1,29 @@
+﻿@using BlazorCRUD.library
+
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="@Product.ImageUrl" alt="@Product.Name" />
+    <div class="card-body">
+        <h5 class="card-title">@Product.Name</h5>
+        <p class="card-text">@Product.Description</p>
+        <p class="card-price">@Product.Price.ToString("C")</p>
+        <button class="btn btn-primary" @onclick="OnEditHandler">Edit</button>
+        <button class="btn btn-danger" @onclick="OnDeleteHandler">Delete</button>
+    </div>
+</div>
+
+@code {
+    [Parameter] public Product Product { get; set; }
+    [Parameter] public EventCallback<Product> OnEdit { get; set; }
+    [Parameter] public EventCallback<Product> OnDelete { get; set; }
+
+    private Task OnEditHandler()
+    {
+        return OnEdit.InvokeAsync(Product);
+    }
+
+    private Task OnDeleteHandler()
+    {
+        return OnDelete.InvokeAsync(Product);
+    }
+}
+

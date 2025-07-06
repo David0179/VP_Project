@@ -1,0 +1,20 @@
+<div class="main-container" >
+<NavMenu / >
+<div class="content" >
+@Body
+</div >
+</div >
+
+<style >
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content {
+    margin: 20px;
+    width: 100%;
+}
+
+</style >
